@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>salaryList.html</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--官方推荐的标准页面引用模板 jQuery js-->
+    <script src="../jslib/jquery.min.js" type="text/javascript"></script>
+    <link href="../jslib/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+    <script src="../jslib/miniui/miniui.js" type="text/javascript"></script>
+    <!--MiniUI-->
+    <link href="../jslib/miniui/themes/blue/skin.css" rel="stylesheet" type="text/css" />
+    <link href="../jslib/demo.css" rel="stylesheet" type="text/css" />
+    <script src="../jslib/boot.js" type="text/javascript"></script>
+
+  </head>
+  
+  <body>
+  	<h1>结算查询</h1>
+  	<div style="padding-bottom:5px;">
+        <span>教师姓名：</span><input class="mini-textbox" id="queryname"  />
+        <span>结算日期：</span><input class="mini-monthpicker" id="querydate"  />
+        <input type="button" value="查找" onclick="search()"/>
+        <input type="button" value="加载T" onclick="loadT()" class="mini-hidden"/>
+        <input type="button" value="导出" onclick="export_excel()" />
+    </div>
+
+    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:250px;" 
+    	url="../querySalaryAction.action" 
+    	idField="id"
+  		totalField="total" 
+  		dataField="rows"
+    	allowResize="true"
+    	sizeList="[10,15,20,30]" 
+    	pageSize="10" 
+    	>
+	    <div property="columns">
+	        <div type="indexcolumn" ></div>
+	        <div field="teacher"width="120" headerAlign="center" allowSort="true">姓名</div>
+	        <div field="date" width="120" headerAlign="center" allowSort="true">日期</div>
+	        <div field="sum" width="120" headerAlign="center" allowSort="true">课时费</div>    
+	        <div field="subsidy" width="120" headerAlign="center" allowSort="true">补贴费</div>                                                      
+	        <div field="ps" width="120" headerAlign="center" allowSort="true">备注</div>
+	        </div>
+	</div>
+  </body>
+  
+  
+    <script type="text/javascript">
+        
+        mini.parse();
+        var grid = mini.get("datagrid1");
+        grid.load();
+        
+        
+ 		
+        function search() {
+        	var month_date = mini.get('querydate');
+        	var jsondate;
+        	if(month_date.value != null){
+        		jsondate = mini.encode(month_date.value).substr(1,7);
+        	}
+ 			
+            var name = mini.get('queryname').value;
+            console.log(jsondate+":"+name);
+            grid.load({ 
+            	queryname: name,
+             	querydate: jsondate});
+        }
+        
+        function loadT(){
+        	grid.load({
+        		queryname: "王海",
+             	querydate: "2017-09"
+        	});
+        }
+        
+        /* $("#key").bind("keydown", function (e) {
+            if (e.keyCode == 13) {
+                search();
+            }
+        }); */
+        ///////////////////////////////////////////////////////
+        
+       function export_excel(){
+		   //console.log(grid);
+		   //console.log(grid.data[0]["teacher"]); 
+		  //弹出提示
+		   mini.confirm("确定导出记录？导出功能将根据您当前页面所展示的内容进行导出", "确定？",
+            function (action) {
+                if (action == "ok") {
+                	var month_date = mini.get('querydate');
+		        	var jsondate;
+		        	if(month_date.value != null){
+		        		jsondate = mini.encode(month_date.value).substr(1,7);
+		        	}
+ 					var name = mini.get('queryname').value;
+                	
+                    $.ajax({
+	                url: "../exportSalaryAction.action",
+	                async : true,
+	                type: "post",
+	                data:{
+	                	queryname: name,
+	                	querydate: jsondate
+	                },
+	                success: function (data) {
+	                	console.log(data);
+	                	var msg = mini.decode(data);
+	                    if(msg.success==true){
+		                	alert("导出成功");
+                		}else{
+                			alert(msg.result);
+                		}
+	                },
+	                error: function (jqXHR, textStatus, errorThrown) {
+	                    alert(jqXHR.responseText);
+	                }
+	            }); 
+                }
+            }
+        ); 
+		   
+       }
+    </script>
+  
+  
+</html>

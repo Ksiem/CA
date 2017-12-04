@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>MyHtml.html</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--官方推荐的标准页面引用模板 jQuery js-->
+    <script src="../jslib/jquery.min.js" type="text/javascript"></script>
+    <link href="../jslib/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+    <script src="../jslib/miniui/miniui.js" type="text/javascript"></script>
+    <!--MiniUI-->
+    <link href="../jslib/miniui/themes/blue/skin.css" rel="stylesheet" type="text/css" />
+    <link href="../jslib/demo.css" rel="stylesheet" type="text/css" />
+    <script src="../jslib/boot.js" type="text/javascript"></script>
+    
+
+  </head>
+  
+  <body>
+    <h1>课时录入</h1>
+	<div> 
+			教师<input name= "teacherName" id="teacher" class="mini-textbox" onenter="onKeyEnter" onblur="queryData()"/>           
+        	结算时间<input name= "year_month" id="date" class="mini-monthpicker" onenter="onKeyEnter" onblur="queryData()"/>
+        	<a id="lock" class="mini-button" iconCls="icon-lock" onclick="locked()" plain="true">锁定</a>
+        	<a class="mini-button" iconCls="icon-search" onclick="queryData()" plain="true">加载</a>
+	</div>
+    
+    <div style="width:800px;">
+        <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:100%;">
+                        <a class="mini-button" iconCls="icon-add" onclick="addWin()" plain="true" tooltip="增加...">增加</a>
+                        <a class="mini-button" iconCls="icon-remove" onclick="removeRow()" plain="true">删除</a>
+                        <a class="mini-button" iconCls="icon-save" onclick="modWin()" plain="true">编辑</a> 
+                        <span class="separator"></span>
+                        <a class="mini-button" iconCls="icon-find" onclick="caculateT()" plain="true">计算</a>          
+                    </td>
+                    <td style="white-space:nowrap;" >
+                        <input id="key" class="mini-textbox" emptyText="请输入课程名称" style="width:150px;" onenter="onKeyEnter" visible="false"/>   
+                        <a class="mini-button" onclick="search()" visible="false" >查询</a>
+                    </td>
+                </tr>
+            </table>           
+        </div>
+    </div>
+    <!--  totalField="total" dataField="rows"-->
+    <div id="datagrid1" class="mini-datagrid" style="width:800px;height:280px;" 
+        url="../queryListAction.action"
+    	idField="id"
+  		totalField="total" 
+  		dataField="rows"
+        allowResize="true">
+         <!-- multiSelect="true"  
+         	allowCellEdit="true" 
+         	allowCellSelect="true" 
+         	editNextOnEnterKey="true"  
+         	editNextRowCell="true" -->
+        <div property="columns">
+            <div type="indexcolumn"></div>
+            <div type="checkcolumn"></div>
+            <div name="className"  field="grade" headerAlign="center" allowSort="true" width="150" >课程名称
+                <input property="editor" class="mini-textbox" style="width:100%;" minWidth="200" />
+            </div>
+            <div name="classhours" field="classhours" width="100" allowSort="true" >课时
+                <input property="editor" class="mini-textbox"  style="width:100%;" />
+            </div>            
+            <div name="pay" field="pay_by_hour" width="100" allowSort="true" >课时费
+                <input property="editor" class="mini-textbox" style="width:100%;"/>
+            </div>    
+            <div name="stu_num" field="stuNum" width="120" allowSort="true">学生人数
+                <input property="editor" class="mini-textbox" style="width:100%;" />
+            </div>
+            <div name="subsidy" field="subsidy" width="120" allowSort="true" visible="false">补贴
+                <input property="editor" class="mini-textbox" value ="" style="width:100%;" />
+            </div>
+             <div name="teacher" field="teacher" width="120" allowSort="true" visible="false">教师
+                <input property="editor" class="mini-textbox" style="width:100%;" />
+            </div>
+             <div name="month_of_year" field="month_of_year" width="120" allowSort="true" visible="false">时间
+                <input property="editor" class="mini-textbox" style="width:100%;" />
+            </div>
+            
+            
+        </div>
+    </div>
+    <script type="text/javascript">
+        //页面预加载
+        mini.parse();
+        var grid = mini.get("datagrid1"); 
+        //前置信息
+        var month_date = mini.get('date');
+    	month_date.setValue(new Date());
+    	var teacher = mini.get('teacher');
+		
+		//////////////////////////////////////////////////////
+		function singleClassQuery(){
+			var month_date = mini.get('date');
+			var jsondate;
+	 		if(month_date.value != null){
+        		jsondate = mini.encode(month_date.value).substr(1,7);
+        	}
+	        var teacher = mini.get('teacher').value;
+			grid.load({
+				addTeacher:teacher,
+				addDate:jsondate	
+			});
+			setLocked();
+		}
+		
+        function TeaAndMonthCheck(){
+        	var flag = true;
+        	if(month_date.value == null){
+        		
+        		alert("请先输入当月时间后再操作");
+        		flag = false;
+        	}
+        	if(teacher.value==null||teacher.value==""){
+        		
+        		alert("请先输入教师姓名后再操作");
+        		flag = false;
+        	}
+        	
+        	return flag;
+        }
+        
+        //////////////////////////////////////////////////////
+
+        function search() {
+            alert("index:"+grid.pageIndex+",pageSize:"+grid.pageSize)       
+            
+        }
+        function onKeyEnter(e) {
+            queryData();
+        }
+/* ******************************************************************* */
+		function addWin(){
+			if(!TeaAndMonthCheck()){
+				return;
+			}
+			setLocked();
+			var jsondate = mini.encode(mini.get('date').value).substr(1,7);
+	        var teacherq = mini.get('teacher').value;
+	        
+			mini.open({
+                targetWindow: window,
+
+                url: "../main/window.html",
+                title: "新录课时", width: 485, height: 160,
+                onload: function () {
+                    var iframe = this.getIFrameEl();
+                    var data = { action: "new",teacher:teacherq,month_of_year:jsondate };
+                    iframe.contentWindow.SetData(data);
+                },
+                ondestroy: function (action) {
+                    grid.load({
+                    	addTeacher:teacherq,
+						addDate:jsondate
+                    });
+                }
+            });
+			
+		}
+		function modWin(e){
+			if(!TeaAndMonthCheck()){
+				return;
+			}
+			setLocked();
+			var jsondate = mini.encode(mini.get('date').value).substr(1,7);
+	        var teacherq = mini.get('teacher').value;
+			//var cId = grid.data[grid.indexOf(grid.getSelected())]["id"];
+			//var cId = grid.getSelected().id;//两种获取都可以
+			
+			var row = grid.getSelected();
+			if(row){
+				mini.open({
+                targetWindow: window,
+
+                url: "../main/window.html",
+                title: "修改课时", width: 485, height: 160,
+                onload: function () {
+                    var iframe = this.getIFrameEl();
+                    var data = { action: "edit",id:row.id };
+                    iframe.contentWindow.SetData(data);
+                },
+                ondestroy: function (action) {
+                    grid.load({
+                    	addTeacher:teacherq,
+						addDate:jsondate
+                    });
+                }
+            	});
+			
+			}
+			
+			
+		}
+		
+
+/* ******************************************************************* */
+
+        /* function addRow() {
+        	
+	        if(TeaAndMonthCheck()){
+	        	var month_date = mini.get('date');
+				var jsondate;
+		 		if(month_date.value != null){
+	        		jsondate = mini.encode(month_date.value).substr(1,7);
+	        	}
+		        var teacher = mini.get('teacher').value;
+	        	console.log(teacher+":"+jsondate);
+	        	var newRow = { 	name: "New Row",
+	            				teacher:teacher,
+	            				month_of_year:jsondate };
+	            
+	            grid.addRow(newRow, 0);
+	            grid.beginEditCell(newRow, "grade");
+	        }  
+        } */
+        
+        function removeRow() {
+        	mini.confirm("确定删除这条记录吗？", "确定？",
+            function (action) {
+                if (action == "ok") {
+                	var row = mini.encode(grid.getSelected());
+		            console.log(row);
+		            if(row){
+		            	$.ajax({
+			                url: "../deleteClassAction.action",
+			                data: {
+			                	delClass: row
+			                 },
+			                dataTpye:'json',
+			                type: "post",
+			                timeout: 3000,
+			                success: function (data) {
+			                	if(mini.decode(data).success&&TeaAndMonthCheck()){
+		                			if(mini.decode(data).success){
+		                				singleClassQuery();
+		                    			showTips("删除");
+		                			}
+		                			
+		                		}
+			                },
+			                error: function (jqXHR, textStatus, errorThrown) {
+			                    alert(jqXHR.responseText);
+			                }
+			            });
+		            
+		            }
+                }
+            }
+        ); 
+        
+                
+        }
+        function saveData() {    
+        	//add？modify？del？
+        	var addData = mini.encode(grid.getChanges("added"));
+        	var modData = mini.encode(grid.getChanges("modified"));
+        	var delData = mini.encode(grid.getChanges("removed"));
+        	console.log(addData+"\n"+modData+"\n"+delData);  
+        	 $.ajax({
+	                url: "../saveClassAction.action",
+	                data: {
+	                	addClass:addData,
+	                	modClass:modData,
+	                	delClass:delData
+	                 },
+	                type: "post",
+	                success: function (data) {
+	                	console.log(data);
+	                	console.log(data[0]);
+	                	singleClassQuery();
+                    	showTips("修改");
+	                    if(data.success==true){
+	                    	console.log(data.result);
+                			
+                	}
+	                },
+	                error: function (jqXHR, textStatus, errorThrown) {
+	                    alert(jqXHR.responseText);
+	                }
+	            });
+        }
+		
+		function queryData() {                        
+            //grid.loading("查询中，请稍后......");
+            if(TeaAndMonthCheck()){
+            	singleClassQuery();
+            }
+            
+        }
+        
+        function caculateT(){
+        	if(!TeaAndMonthCheck()){
+        		return ;
+        	}
+        	var month_date = mini.get('date');
+			var jsondate;
+	 		if(month_date.value != null){
+        		jsondate = mini.encode(month_date.value).substr(1,7);
+        	}
+	        var teacher = mini.get('teacher').value;
+	        $.ajax({
+	                url: "../caculatorAction.action",
+	                data: {
+	                	caTeacher: teacher,
+	                	caDate: jsondate
+	                 },
+	                type: "post",
+	                success: function (data) {
+	                	alert(data);
+	                	//TODO：针对 查询到0条数据 的返回结果进行提示 
+	                    //alert("sum:"+data.sum+",subsidy:"+data.subsidy);
+	                },
+	                error: function (jqXHR, textStatus, errorThrown) {
+	                    alert(jqXHR.responseText);
+	                }
+	            }); 
+        }
+        
+    
+        
+		/* grid.on("cellendedit",function(e){
+			var classHours;
+			var stuNum;
+			var index = grid.indexOf(e.record);
+			
+			获取index行xxx列的值grid.data[index]["xxx"]
+			//在修改pay_by_hour 和 stuNum时，判断并自动设置subsidy的值
+			//if(e.field == "stuNum"||e.field == "classHours"){}
+			
+		});  */    
+
+        grid.on("celleditenter", function (e) {
+            var index = grid.indexOf(e.record);
+            if (index == grid.getData().length - 1) {
+                var row = {};
+                grid.addRow(row);
+            }
+        });
+
+		function locked(){
+			var lock = mini.get('lock');
+			var date = mini.get('date');
+			var teacher = mini.get('teacher');
+			
+			//alert(lock.text);
+			if(lock.iconCls=="icon-lock"){
+				lock.set({
+					text:"解锁",
+					iconCls:"icon-unlock"
+				});
+				date.disable();
+				teacher.disable();
+			} else if(lock.iconCls=="icon-unlock"){
+				lock.set({
+					text:"锁定",
+					iconCls:"icon-lock"
+				});
+				date.enable();
+				teacher.enable();
+			} 
+		}
+		
+		function setLocked(){
+			var lock = mini.get('lock');
+			var date = mini.get('date');
+			var teacher = mini.get('teacher');
+			if(lock.iconCls=="icon-unlock"){
+				lock.set({
+					text:"解锁",
+					iconCls:"icon-unlock"
+				});
+				date.disable();
+				teacher.disable();
+			} 
+		}
+
+
+       function showTips(str) {
+	        mini.showTips({
+	            content: "<b>成功</b> <br/>数据"+str+"成功",
+	            state: 'success',
+	            x: 'center',
+	            y: 'top',
+	            timeout: 3000
+	        });
+    	}
+    </script>
+
+</body>
+</html>

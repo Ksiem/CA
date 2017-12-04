@@ -1,0 +1,189 @@
+.mycion-cls{
+	margin: 0 5px;
+	width: 16px;
+	height:16px;	
+}
+
+/*sys系统管理*/
+.myicon-sys-menu{
+	background:url('myicon/26942.png') no-repeat center center;
+}
+/*user用户管理图标*/
+.myicon-user-add{
+	background:url('myicon/18840.png') no-repeat center center;
+}
+.myicon-user-edit{
+	background:url('myicon/36528.png') no-repeat center center;
+}
+.myicon-user-del{
+	background:url('myicon/19870.png') no-repeat center center;
+}
+.myicon-user-info{
+	background:url('myicon/36537.png') no-repeat center center;
+}
+.myicon-user-psw{
+	background:url('myicon/20354.png') no-repeat center center;
+}
+.myicon-user-search{
+	background:url('myicon/36538.png') no-repeat center center;
+}
+
+/*banner图标*/
+.myicon-ban-user{
+	background:url('myicon/31969.png') no-repeat center center;
+}
+.myicon-ban-key{
+	background:url('myicon/31957.png') no-repeat center center;
+}
+.myicon-ban-out{
+	background:url('myicon/18381.png') no-repeat center center;
+}
+
+/*log日志管理图标*/
+.myicon-log-menu{
+	background:url('myicon/35657.png') no-repeat center center;
+}
+.myicon-log-save{
+	background:url('myicon/19313.png') no-repeat center center;
+}
+.myicon-log-del{
+	background:url('myicon/21228.png') no-repeat center center;
+}
+.myicon-log-search{
+	background:url('myicon/35658.png') no-repeat center center;
+}
+
+/*security客户端授权管理*/
+.myicon-security-menu{
+	background:url('myicon/41271.png') no-repeat center center;
+}
+.myicon-security-search{
+	background:url('myicon/41271.png') no-repeat center center;
+}
+.myicon-security-del{
+	background:url('myicon/41273.png') no-repeat center center;
+}
+.myicon-security-add{
+	background:url('myicon/41272.png') no-repeat center center;
+}
+
+/*role客户端授权管理*/
+.myicon-role-add{
+	background:url('myicon/510031.png') no-repeat center center;
+}
+.myicon-role-edit{
+	background:url('myicon/510032.png') no-repeat center center;
+}
+.myicon-role-del{
+	background:url('myicon/510030.png') no-repeat center center;
+}
+.myicon-role-menu{
+	background:url('myicon/510028.png') no-repeat center center;
+}
+.myicon-role-search{
+	background:url('myicon/510029.png') no-repeat center center;
+}
+.myicon-roleuser-edit{
+	background:url('myicon/33816.png') no-repeat center center;
+}
+
+/*smart智能影像*/
+.myicon-smart-menu{
+	background:url('myicon/12632.png') no-repeat center center;
+}
+.myicon-smart-scan{
+	background:url('myicon/12488.png') no-repeat center center;
+}
+/*doc配置单证类型*/
+.myicon-doc-menu{
+	background:url('myicon/6692.png') no-repeat center center;
+}
+/*page页面定义*/
+.myicon-page-add{
+	background:url('myicon/7641.png') no-repeat center center;
+}
+.myicon-page-edit{
+	background:url('myicon/7643.png') no-repeat center center;
+}
+.myicon-page-del{
+	background:url('myicon/7642.png') no-repeat center center;
+}
+.myicon-page-menu{
+	background:url('myicon/7639.png') no-repeat center center;
+}
+.myicon-page-search{
+	background:url('myicon/7640.png') no-repeat center center;
+}
+/*doclist单证列表*/
+.myicon-doclist-add{
+	background:url('myicon/33350.png') no-repeat center center;
+}
+.myicon-doclist-edit{
+	background:url('myicon/14682.png') no-repeat center center;
+}
+.myicon-doclist-del{
+	background:url('myicon/19919.png') no-repeat center center;
+}
+.myicon-doclist-menu{
+	background:url('myicon/32481.png') no-repeat center center;
+}
+.myicon-doclist-search{
+	background:url('myicon/32482.png') no-repeat center center;
+}
+/*doccon配置文件发布更新*/
+.myicon-doccon-upload{
+	background:url('myicon/7799.png') no-repeat center center;
+}
+.myicon-doccon-view{
+	background:url('myicon/16615.png') no-repeat center center;
+}
+.myicon-doccon-menu{
+	background:url('myicon/16615.png') no-repeat center center;
+}
+.myicon-doccon-review{
+	background:url('myicon/2661.png') no-repeat center center;
+}
+
+/*link索引管理*/
+.myicon-link-add{
+	background:url('myicon/32485.png') no-repeat center center;
+}
+.myicon-link-edit{
+	background:url('myicon/33811.png') no-repeat center center;
+}
+.myicon-link-del{
+	background:url('myicon/18322.png') no-repeat center center;
+}
+.myicon-link-menu{
+	background:url('myicon/27067.png') no-repeat center center;
+}
+.myicon-link-search{
+	background:url('myicon/27068.png') no-repeat center center;
+}
+
+/*uploadXML导入XML文件*/
+.myicon-uploadXML-menu{
+	background:url('myicon/31971.png') no-repeat center center;
+}
+
+/*uploadLog上传记录*/
+.myicon-uploadLog-menu{
+	background:url('myicon/6513.png') no-repeat center center;
+}
+
+/*defend保全业务*/
+.myicon-defend-menu{
+	background:url('myicon/30661.png') no-repeat center center;
+}
+
+/*高拍仪，身份证*/
+.myicon-gpy-menu{
+	background:url('myicon/gpy.png') no-repeat center center;
+}
+.myicon-idcard-menu{
+	background:url('myicon/idcard.png') no-repeat center center;
+}
+
+.myicon-ban-notice{
+	background:url('myicon/notice.gif') no-repeat center center;
+}

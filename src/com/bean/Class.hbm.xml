@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.bean">
+ <class name="Class" table="t_class">
+  <id name="id" column="id"></id>
+  <!-- 统一输入量 -->
+  <property name="teacher" type="string" column="teacher"/>
+  <property name="timemillions" type="long" column="month_of_year"/>
+  <!-- 个体输入量 -->
+  <property name="grade" type = "String" column = "grade"></property>
+  <property name="classHours" type = "double" column = "classhours"></property>
+  <property name="pay" type = "int" column = "pay_by_hour"></property>
+  <property name="stuNum" type = "int" column = "stuNum"></property>
+  <!-- 自动计算量 -->
+  <property name="subsidy" type = "double" column = "subsidy"></property>
+ </class>
+</hibernate-mapping>

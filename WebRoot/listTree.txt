@@ -1,0 +1,6 @@
+[
+    
+    {id: "task", text: "录入课时",url:"../main/task.html"},
+    {id: "salaryList", text: "查询结算",url:"../main/salaryList.html"}
+     
+]
